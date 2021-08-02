@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using StoreApi.Data;
+using StoreApi.Middlewares;
 using StoreApi.Repositories;
 
 namespace StoreApi
@@ -54,6 +55,8 @@ namespace StoreApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<GlobalHandleException>();
 
             app.UseEndpoints(endpoints =>
             {
