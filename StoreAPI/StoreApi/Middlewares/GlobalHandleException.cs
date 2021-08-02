@@ -41,9 +41,9 @@ namespace StoreApi.Middlewares
 
                 var errorResponse = new
                 {
-                    Message = ex.Message,
-                    StatusCode = response.StatusCode,
-                    Succees = false
+                    message = ex.Message,
+                    statusCode = response.StatusCode,
+                    succees = false
                 };
 
                 var errorJson = JsonSerializer.Serialize(errorResponse);
