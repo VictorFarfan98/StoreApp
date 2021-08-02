@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -47,9 +48,11 @@ namespace StoreApi.Controllers
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts([FromQuery] PaginationFilter filter)
         {
+            Debug.WriteLine(filter);
             var route = Request.Path.Value;
-            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter.Sort, filter.Searchtext);
             var products = await _productRepository.GetAllProducts(validFilter);
+            Debug.WriteLine(products);
             var totalRecords = await _productRepository.GetProductsCount();
 
             var pagedReponse = PaginationHelper.CreatePagedReponse<Product>(products, validFilter, totalRecords, _uriService, route);

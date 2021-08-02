@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -64,11 +65,41 @@ namespace StoreApi.Repositories
 
         public async Task<IEnumerable<Product>> GetAllProducts(PaginationFilter validFilter)
         {
-            var pagedData = await _context.Products
-                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-                .Take(validFilter.PageSize)
-                .ToListAsync();
-            return pagedData;
+            if(validFilter.Searchtext != null && validFilter.Sort) {
+                var pagedData = await _context.Products
+                    .Where(p => p.Name.Contains(validFilter.Searchtext))
+                    .OrderBy(p => p.Name)
+                    .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                    .Take(validFilter.PageSize)
+                    .ToListAsync();
+
+                return pagedData;
+            } else if(validFilter.Searchtext != null) {
+                var pagedData = await _context.Products
+                    .Where(p => p.Name.Contains(validFilter.Searchtext))
+                    .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                    .Take(validFilter.PageSize)
+                    .ToListAsync();
+                
+                return pagedData;
+            } else if (validFilter.Sort) {
+                var pagedData = await _context.Products
+                    .OrderBy(p => p.Name)
+                    .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                    .Take(validFilter.PageSize)
+                    .ToListAsync();
+                
+                return pagedData;
+            } else {
+                var pagedData = await _context.Products
+                    .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                    .Take(validFilter.PageSize)
+                    .ToListAsync();
+                
+                return pagedData;
+            }
+            
+            
         }
 
         public async Task<Product> GetProduct(int productId)
