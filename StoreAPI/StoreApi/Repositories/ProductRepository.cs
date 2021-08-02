@@ -20,6 +20,22 @@ namespace StoreApi.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task BuyProduct(int productId)
+        {
+            var productToBuy = await _context.Products.FindAsync(productId);
+            if (productToBuy == null) 
+                throw new NullReferenceException();
+
+            if (productToBuy.Stock <= 0) {
+                throw new InvalidOperationException();    
+            }
+            
+            productToBuy.Stock = productToBuy.Stock - 1;
+            productToBuy.UpdatedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task DeleteProduct(int productId)
         {
             var productToDelete = await _context.Products.FindAsync(productId);

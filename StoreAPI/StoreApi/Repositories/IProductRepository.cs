@@ -11,5 +11,6 @@ namespace StoreApi.Repositories
         Task AddProduct(Product product);
         Task DeleteProduct(int productId);
         Task EditProduct(Product product);
+        Task BuyProduct(int productId);
     }
 }

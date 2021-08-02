@@ -23,7 +23,7 @@ namespace StoreApi.Controllers
         {
             var product = await _productRepository.GetProduct(productId);
             if (product == null) 
-                return NotFound();
+                return Ok();
             
             return Ok(product);
         }
@@ -59,10 +59,11 @@ namespace StoreApi.Controllers
         }
 
         [HttpPut("{productId}")]
-        public async Task<ActionResult> EditProduct(int id, EditProductDTO editProductDTO)
+        public async Task<ActionResult> EditProduct(int productId, EditProductDTO editProductDTO)
         {
             Product product = new()
             {
+                ProductId = productId,
                 Name = editProductDTO.Name,
                 Price = editProductDTO.Price,
                 Stock = editProductDTO.Stock,
@@ -70,6 +71,13 @@ namespace StoreApi.Controllers
             };
 
             await _productRepository.EditProduct(product);
+            return Ok();
+        }
+
+        [HttpPatch("{productId}")]
+        public async Task<ActionResult> BuyProduct(int productId)
+        {
+            await _productRepository.BuyProduct(productId);
             return Ok();
         }
     }
