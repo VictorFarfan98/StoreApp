@@ -75,5 +75,10 @@ namespace StoreApi.Repositories
         {
             return await _context.Products.FindAsync(productId);
         }
+
+        public async Task<int> GetProductsCount()
+        {
+            return await _context.Products.CountAsync();
+        }
     }
 }
