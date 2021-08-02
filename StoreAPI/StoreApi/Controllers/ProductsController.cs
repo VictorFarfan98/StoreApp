@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StoreApi.DTOs;
+using StoreApi.Filters;
 using StoreApi.Models;
 using StoreApi.Repositories;
 
@@ -30,19 +32,22 @@ namespace StoreApi.Controllers
         {
             var product = await _productRepository.GetProduct(productId);
             if (product == null) 
-                return Ok();
+                return Ok(new Response<Product>());
             
-            return Ok(product);
+            return Ok(new Response<Product>(product));
         }
 
         /// <summary>
         /// Retrieve a list of all products. 
         /// </summary>
         [HttpGet("")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts([FromQuery] PaginationFilter filter)
         {
-            var products = await _productRepository.GetAllProducts();
-            return Ok(products);
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+            var products = await _productRepository.GetAllProducts(validFilter);
+            var totalRecords = products.Count();
+            
+            return Ok(new PagedResponse<IEnumerable<Product>>(products, validFilter.PageNumber, validFilter.PageSize));
         }
 
         /// <summary>
@@ -62,7 +67,7 @@ namespace StoreApi.Controllers
             };
 
             await _productRepository.AddProduct(product);
-            return Ok();
+            return Ok(new Response<Product>());
         }
 
         /// <summary>
@@ -73,7 +78,7 @@ namespace StoreApi.Controllers
         public async Task<ActionResult> DeleteProduct(int productId)
         {
             await _productRepository.DeleteProduct(productId);
-            return Ok();
+            return Ok(new Response<Product>());
         }
 
         /// <summary>
@@ -94,7 +99,7 @@ namespace StoreApi.Controllers
             };
 
             await _productRepository.EditProduct(product);
-            return Ok();
+            return Ok(new Response<Product>());
         }
 
         /// <summary>
@@ -105,7 +110,7 @@ namespace StoreApi.Controllers
         public async Task<ActionResult> BuyProduct(int productId)
         {
             await _productRepository.BuyProduct(productId);
-            return Ok();
+            return Ok(new Response<Product>());
         }
     }
 }

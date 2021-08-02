@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using StoreApi.Data;
+using StoreApi.Filters;
 using StoreApi.Models;
 
 namespace StoreApi.Repositories
@@ -60,9 +62,13 @@ namespace StoreApi.Repositories
             await _context.SaveChangesAsync();
         }   
 
-        public async Task<IEnumerable<Product>> GetAllProducts()
+        public async Task<IEnumerable<Product>> GetAllProducts(PaginationFilter validFilter)
         {
-            return await _context.Products.ToListAsync();
+            var pagedData = await _context.Products
+                .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToListAsync();
+            return pagedData;
         }
 
         public async Task<Product> GetProduct(int productId)
