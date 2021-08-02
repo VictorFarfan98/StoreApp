@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StoreApi.DTOs;
 using StoreApi.Filters;
+using StoreApi.Helpers;
 using StoreApi.Models;
 using StoreApi.Repositories;
+using StoreApi.Services;
 
 namespace StoreApi.Controllers
 {
@@ -18,9 +20,11 @@ namespace StoreApi.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
-        public ProductsController(IProductRepository productRepository)
+        private readonly IUriService _uriService;
+        public ProductsController(IProductRepository productRepository, IUriService uriService)
         {
             _productRepository = productRepository;
+            _uriService = uriService;
         }
 
         /// <summary>
@@ -43,11 +47,13 @@ namespace StoreApi.Controllers
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts([FromQuery] PaginationFilter filter)
         {
+            var route = Request.Path.Value;
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
             var products = await _productRepository.GetAllProducts(validFilter);
-            var totalRecords = products.Count();
-            
-            return Ok(new PagedResponse<IEnumerable<Product>>(products, validFilter.PageNumber, validFilter.PageSize));
+            var totalRecords = await _productRepository.GetProductsCount();
+
+            var pagedReponse = PaginationHelper.CreatePagedReponse<Product>(products, validFilter, totalRecords, _uriService, route);
+            return Ok(pagedReponse);
         }
 
         /// <summary>
