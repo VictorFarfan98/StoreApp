@@ -24,10 +24,10 @@ namespace StoreApi.Repositories
         {
             var productToBuy = await _context.Products.FindAsync(productId);
             if (productToBuy == null) 
-                throw new NullReferenceException();
+                throw new Exception("The requested product was not found.");
 
             if (productToBuy.Stock <= 0) {
-                throw new InvalidOperationException();    
+                throw new Exception("There are no stock of this product.");
             }
             
             productToBuy.Stock = productToBuy.Stock - 1;
@@ -40,7 +40,7 @@ namespace StoreApi.Repositories
         {
             var productToDelete = await _context.Products.FindAsync(productId);
             if (productToDelete == null)
-                throw new NullReferenceException();
+                throw new Exception("The requested product was not found.");
             
             _context.Products.Remove(productToDelete);
             await _context.SaveChangesAsync();
@@ -50,7 +50,7 @@ namespace StoreApi.Repositories
         {
             var productToEdit = await _context.Products.FindAsync(product.ProductId);
             if (productToEdit == null) 
-                throw new NullReferenceException();
+                throw new Exception("The requested product was not found.");
             
             productToEdit.Name = product.Name;
             productToEdit.Price = product.Price;
