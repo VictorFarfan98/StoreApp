@@ -8,6 +8,9 @@ using StoreApi.Repositories;
 
 namespace StoreApi.Controllers
 {
+    /// <summary>
+    /// All Operations to be performed on Products
+    /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class ProductsController : ControllerBase
@@ -18,6 +21,10 @@ namespace StoreApi.Controllers
             _productRepository = productRepository;
         }
 
+        /// <summary>
+        /// Retrieve a single product from a given productId. 
+        /// </summary>
+        /// <param name="productId"> The Id of the product to retrieve. </param>
         [HttpGet("{productId}")]
         public async Task<ActionResult<Product>> GetProduct(int productId)
         {
@@ -28,6 +35,9 @@ namespace StoreApi.Controllers
             return Ok(product);
         }
 
+        /// <summary>
+        /// Retrieve a list of all products. 
+        /// </summary>
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<Product>>> GetAllProducts()
         {
@@ -35,6 +45,10 @@ namespace StoreApi.Controllers
             return Ok(products);
         }
 
+        /// <summary>
+        /// Creates a new product.
+        /// </summary>
+        /// <param name="createProductDTO"> The Product object to be created. </param>
         [HttpPost("")]
         public async Task<ActionResult> CreateProduct(CreateProductDTO createProductDTO)
         {
@@ -51,6 +65,10 @@ namespace StoreApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes a product from a given id.
+        /// </summary>
+        /// <param name="productId"> The Id of the product to delete. </param>
         [HttpDelete("{productId}")]
         public async Task<ActionResult> DeleteProduct(int productId)
         {
@@ -58,6 +76,11 @@ namespace StoreApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Edit a product from a given id.
+        /// </summary>
+        /// <param name="productId"> The Id of the product to edit. </param>
+        /// <param name="editProductDTO"> The new Product object. </param>
         [HttpPut("{productId}")]
         public async Task<ActionResult> EditProduct(int productId, EditProductDTO editProductDTO)
         {
@@ -74,6 +97,10 @@ namespace StoreApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Triggers the buy action of a product.
+        /// </summary>
+        /// <param name="productId"> The Id of the product to buy. </param>
         [HttpPatch("{productId}")]
         public async Task<ActionResult> BuyProduct(int productId)
         {
