@@ -2,6 +2,22 @@ version: '3.4'
 
 services:
     
+    store_api:
+        build:
+            context: ./StoreAPI
+            dockerfile: Dockerfile
+        container_name: store_api
+        depends_on:
+            - postgresql_database
+        ports:
+            - "5001:80"
+        links:
+            - postgresql_database
+        stdin_open: true
+        tty: true
+        volumes:
+            - ../storeAPI:/usr/src/app
+
     postgresql_database:
         image: postgres:latest
         environment: 
