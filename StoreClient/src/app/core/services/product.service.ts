@@ -11,7 +11,10 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   getProducts(pageNumber: number, pageSize: number, sort: boolean, searchtext?: string): Observable<any> {
-    let params = `pageNumber=${pageNumber}&pageSize=${pageSize}&sort=${sort}&searchtext=${searchtext}`
+    let params = searchtext ? 
+                    `pageNumber=${pageNumber}&pageSize=${pageSize}&sort=${sort}&searchtext=${searchtext}`
+                    :
+                    `pageNumber=${pageNumber}&pageSize=${pageSize}&sort=${sort}`
     let url = `${this.baseUrl}?${params}`
     return this.http.get(url);            
   }

@@ -14,11 +14,5 @@ export class AppComponent {
   }
 
   ngOnInit(): void{
-    console.log("App started")
-    this.productService.getProducts(1, 5, true).subscribe(res =>{
-      console.log("Get Products");
-      
-      console.log(res)
-    })
   }
 }
