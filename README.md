@@ -28,7 +28,7 @@ This project includes a docker compose that set ups the API, the Client, the Dat
 6. Open a browser window and go to ```localhost:5000``` in order to open the web application.
 
 ## Connect to our PostgreSQL database instance.
-*(In order to restore the given database dump you will need to use your own postgres client or copy the dump inside of the PGAdmin volume.)*
+*(In order to restore the given database dump you will need to use your own postgres client or copy the dump inside of the PGAdmin container volume.)*
 
 1. Open a browser window and go to ```localhost:5050``` in order to open the given PG Admin instance.
 2. Login to pgAdmin with the given credentials:
