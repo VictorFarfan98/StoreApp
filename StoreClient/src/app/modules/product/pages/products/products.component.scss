@@ -13,6 +13,10 @@
     padding: 20px
 }
 
+.table-container{
+    position: absolute;
+    top: 0;
+}
 
 /* Structure */
 .example-container {
@@ -21,9 +25,8 @@
 
 .example-table-container {
     position: relative;
-    min-height: 200px;
-    max-height: 400px;
-    overflow: auto;
+    min-height: 200px;    
+    //overflow: auto;
 }
 
 table {

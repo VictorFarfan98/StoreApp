@@ -14,8 +14,9 @@ export class ProductsComponent implements OnInit {
   searchtext: string = "";
   products: Product[] = [];
   sortAPI: boolean = true;
-  addProduct: boolean = false;
-  editProduct: boolean = false;
+  showAddProduct: boolean = false;
+  showEditProduct: boolean = false;
+  selectedProduct: Product = null;
   // Table related data
   displayedColumns: string[] = ['productId', 'name', 'price', 'stock', 'actionButton'];
   data: Product[] = [];
@@ -34,51 +35,58 @@ export class ProductsComponent implements OnInit {
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.paginator.page.subscribe(() => {
-      this.productService.getProducts(this.paginator.pageIndex+1, this.paginator.pageSize, this.sortAPI).subscribe(res =>{
-        this.data = res.data;
-        this.isLoadingResults = false;
-        this.isRateLimitReached = res.data === null;
-        this.resultsLength = res.totalRecords;
-      })  
+      this.loadData();  
     })
 
     //? Run this outside of the paginator.page.subscribe for initial data retrieval.
-    this.productService.getProducts(this.paginator.pageIndex, this.paginator.pageSize, this.sortAPI).subscribe(res =>{
-      this.data = res.data;
-      this.isLoadingResults = false;
-      this.isRateLimitReached = res.data === null;
-      this.resultsLength = res.totalRecords;
-    })    
+    this.loadData();    
   }
 
   applyFilter(){
-    this.productService.getProducts(this.paginator.pageIndex, this.paginator.pageSize, this.sortAPI, this.searchtext).subscribe(res =>{
-      console.log(res.data);
-      
-      this.data = res.data;
-      this.isLoadingResults = false;
-      this.isRateLimitReached = res.data === null;
-      this.resultsLength = res.totalRecords;
-    })
+    this.loadData();
   }
 
   sortChanged(){
-    console.log(this.sortAPI);
-    
-    this.productService.getProducts(this.paginator.pageIndex, this.paginator.pageSize, this.sortAPI, this.searchtext).subscribe(res =>{
-      console.log(res.data);
-      
-      this.data = res.data;
-      this.isLoadingResults = false;
-      this.isRateLimitReached = res.data === null;
-      this.resultsLength = res.totalRecords;
-    })
+    this.loadData();
+  }
 
-    this.addProduct=true;
+  editProduct(product: Product): void {
+    this.selectedProduct = product;
+    this.showEditProduct = true;
   }
   
   buyProduct(productId: number){
     console.log("Buy product: " + productId);
     //TODO: Call buy method
+  }
+
+  handleSaveSuccess(success){
+    console.log("Handle save success: " + success);
+    
+    if (success) {
+      this.showAddProduct = false;
+      this.showEditProduct = false;
+      this.loadData();
+    }    
+  }
+
+  loadData(): void {
+    this.productService.getProducts(this.paginator.pageIndex, this.paginator.pageSize, this.sortAPI, this.searchtext).subscribe(res =>{
+      console.log(res.data);
+      
+      this.data = res.data;
+      this.isLoadingResults = false;
+      this.isRateLimitReached = res.data === null;
+      this.resultsLength = res.totalRecords;
+    })
+  }
+
+  login(): void{
+    console.log("login");
+    
+  }
+
+  logout(): void{
+    console.log("logout");
   }
 }

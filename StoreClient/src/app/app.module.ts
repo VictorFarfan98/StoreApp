@@ -14,6 +14,7 @@ import { SharedModule } from './shared/shared.module';
 import { ProductsComponent } from './modules/product/pages/products/products.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AddEditProductComponent } from './modules/product/components/add-edit-product/add-edit-product.component';
+import { ProductService } from './core/services/product.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,9 @@ import { AddEditProductComponent } from './modules/product/components/add-edit-p
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    ProductService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
