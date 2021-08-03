@@ -6,10 +6,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService {
+  baseUrl: string = "http://localhost:5001/api/v1/Products";
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<any> {
-    return this.http.get("http://localhost:5001/api/v1/Products?pageNumber=1&pageSize=10&sort=True&searchtext=PC");            
+  getProducts(pageNumber: number, pageSize: number, sort: boolean, searchtext?: string): Observable<any> {
+    let params = `pageNumber=${pageNumber}&pageSize=${pageSize}&sort=${sort}&searchtext=${searchtext}`
+    let url = `${this.baseUrl}?${params}`
+    return this.http.get(url);            
   }
 }

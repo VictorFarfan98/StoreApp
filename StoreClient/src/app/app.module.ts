@@ -10,10 +10,13 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { SharedModule } from './shared/shared.module';
+import { ProductsComponent } from './modules/product/pages/products/products.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProductsComponent
   ],
   imports: [
     BrowserModule,
@@ -22,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AngularFirestoreModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
