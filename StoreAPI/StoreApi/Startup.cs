@@ -22,6 +22,7 @@ namespace StoreApi
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -45,11 +46,17 @@ namespace StoreApi
                 var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
                 return new UriService(uri);
             });
-
-            services.AddCors(c =>  
-            {  
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());  
-            });  
+            
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                                builder =>
+                                {
+                                    builder.AllowAnyOrigin()
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                                });
+            });
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -67,7 +74,7 @@ namespace StoreApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StoreApi v1"));
             }
-            app.UseCors(options => options.AllowAnyOrigin());  
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());  
             app.UseHttpsRedirection();
 
             app.UseRouting();
