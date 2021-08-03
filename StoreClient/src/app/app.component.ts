@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProductService } from './core/services/product.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'StoreClient';
+
+  constructor(private productService: ProductService){
+
+  }
+
+  ngOnInit(): void{
+    console.log("App started")
+    this.productService.getProducts().subscribe(res =>{
+      console.log("Get Products");
+      
+      console.log(res)
+    })
+  }
 }
