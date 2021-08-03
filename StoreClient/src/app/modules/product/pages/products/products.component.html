@@ -1,4 +1,4 @@
-<mat-grid-list class="container" cols="4" rowHeight="600px">
+<mat-grid-list class="container" cols="4">
     <mat-grid-tile colspan="3">
         <div class="table-container">
             <mat-form-field appearance="standard">
@@ -91,11 +91,13 @@
         
     </mat-grid-tile>
 
-    <mat-grid-tile  colspan="4">
+    <mat-grid-tile colspan="4">
         <div class="form-container">
             <app-add-edit-product></app-add-edit-product>
         </div>
-        
+        <div *ngIf="editProduct" class="form-container">
+            <app-add-edit-product isEdit="true" [product]="data[0]"></app-add-edit-product>
+        </div>
     </mat-grid-tile>
     
     

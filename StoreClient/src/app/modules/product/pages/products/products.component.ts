@@ -14,6 +14,8 @@ export class ProductsComponent implements OnInit {
   searchtext: string = "";
   products: Product[] = [];
   sortAPI: boolean = true;
+  addProduct: boolean = false;
+  editProduct: boolean = false;
   // Table related data
   displayedColumns: string[] = ['productId', 'name', 'price', 'stock', 'actionButton'];
   data: Product[] = [];
@@ -71,6 +73,8 @@ export class ProductsComponent implements OnInit {
       this.isRateLimitReached = res.data === null;
       this.resultsLength = res.totalRecords;
     })
+
+    this.addProduct=true;
   }
   
   buyProduct(productId: number){

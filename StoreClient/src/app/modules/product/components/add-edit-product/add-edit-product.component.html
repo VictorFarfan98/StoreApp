@@ -1,1 +1,21 @@
-<p>add-edit-product works!</p>
+<div class="form">
+    <mat-form-field appearance="standard">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Coookie" [formControl]="name" required>
+        <mat-error *ngIf="name.invalid">You must enter a value</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+        <mat-label>Price</mat-label>
+        <input matInput type="price" placeholder="0" [formControl]="price" required>
+        <mat-error *ngIf="price.invalid">You must enter a value</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+        <mat-label>Stock</mat-label>
+        <input matInput type="stock" placeholder="0" [formControl]="stock" required>
+        <mat-error *ngIf="stock.invalid">You must enter a value</mat-error>
+    </mat-form-field>
+
+    <button (click)="saveProduct()" mat-raised-button color="primary">Save</button>
+</div>
