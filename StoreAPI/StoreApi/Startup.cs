@@ -46,6 +46,11 @@ namespace StoreApi
                 return new UriService(uri);
             });
 
+            services.AddCors(c =>  
+            {  
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());  
+            });  
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -62,7 +67,7 @@ namespace StoreApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StoreApi v1"));
             }
-
+            app.UseCors(options => options.AllowAnyOrigin());  
             app.UseHttpsRedirection();
 
             app.UseRouting();
