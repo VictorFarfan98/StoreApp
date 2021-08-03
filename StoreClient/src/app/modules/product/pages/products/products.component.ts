@@ -147,7 +147,7 @@ export class ProductsComponent implements OnInit {
    */
   login(): void{
     this.authService.SignIn();
-    if (this.authService.authToken) {
+    if (this.authService.authToken != null) {
       this.snackbar.openSnackBar("Successfully Logged In", "Dismiss");
     } else {
       this.snackbar.openSnackBar("There was an error when logging in.", "Dismiss");
