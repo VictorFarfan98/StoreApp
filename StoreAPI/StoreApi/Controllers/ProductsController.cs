@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StoreApi.DTOs;
 using StoreApi.Filters;
@@ -63,6 +64,7 @@ namespace StoreApi.Controllers
         /// Creates a new product.
         /// </summary>
         /// <param name="createProductDTO"> The Product object to be created. </param>
+        [Authorize]
         [HttpPost("")]
         public async Task<ActionResult> CreateProduct(CreateProductDTO createProductDTO)
         {
@@ -83,6 +85,7 @@ namespace StoreApi.Controllers
         /// Deletes a product from a given id.
         /// </summary>
         /// <param name="productId"> The Id of the product to delete. </param>
+        [Authorize]
         [HttpDelete("{productId}")]
         public async Task<ActionResult> DeleteProduct(int productId)
         {
@@ -95,6 +98,7 @@ namespace StoreApi.Controllers
         /// </summary>
         /// <param name="productId"> The Id of the product to edit. </param>
         /// <param name="editProductDTO"> The new Product object. </param>
+        [Authorize]
         [HttpPut("{productId}")]
         public async Task<ActionResult> EditProduct(int productId, EditProductDTO editProductDTO)
         {
@@ -115,6 +119,7 @@ namespace StoreApi.Controllers
         /// Triggers the buy action of a product.
         /// </summary>
         /// <param name="productId"> The Id of the product to buy. </param>
+        [Authorize]
         [HttpPatch("{productId}")]
         public async Task<ActionResult> BuyProduct(int productId)
         {

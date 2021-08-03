@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import { ProductService } from 'src/app/core/services/product.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { Product } from 'src/app/shared/models/product.model';
 
 @Component({
@@ -17,7 +18,7 @@ export class AddEditProductComponent implements OnInit {
   price = new FormControl('', [Validators.required]);  
   stock = new FormControl('', [Validators.required]);  
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private snackbar: SnackbarService,) { }
 
   ngOnInit(): void {
     //this.name.setValue("Hola");
@@ -44,6 +45,8 @@ export class AddEditProductComponent implements OnInit {
             this.stock.setValue("");
             this.onSuccess.emit(true);
           }
+        }, error => {
+          this.onSuccess.emit(false);
         })
       } else {
         console.log("Create");
@@ -56,6 +59,8 @@ export class AddEditProductComponent implements OnInit {
             this.stock.setValue("");
             this.onSuccess.emit(true);
           }
+        }, error => {
+          this.onSuccess.emit(false);
         })
       }
       

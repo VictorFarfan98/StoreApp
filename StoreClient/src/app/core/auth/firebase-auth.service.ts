@@ -36,5 +36,6 @@ export class FirebaseAuthService {
    */
   SignOut() {
     this.angularFireAuth.signOut();
+    this.authToken = "";
   }
 }

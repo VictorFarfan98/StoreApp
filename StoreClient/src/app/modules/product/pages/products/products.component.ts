@@ -57,6 +57,10 @@ export class ProductsComponent implements OnInit {
   }
 
   editProduct(product: Product): void {
+    this.showEditProduct = false;
+    setTimeout( () => {
+
+    }, 500)
     this.selectedProduct = product;
     this.showEditProduct = true;
   }
@@ -64,10 +68,18 @@ export class ProductsComponent implements OnInit {
   buyProduct(productId: number){
     console.log("Buy product: " + productId);
     this.productService.buyProduct(productId).subscribe(res => {
+      console.log("Res");
+      console.log(res);
       if(res.succees) {
         this.snackbar.openSnackBar("Product bought successfully", "Dismiss");
         this.loadData();
       }
+    }, error => {
+      console.log(error);
+      if (error.status === 401) {
+        this.snackbar.openSnackBar("Unauthorized!!! Please login to use this feature", "Dismiss");
+      }
+      
     })
   }
 
@@ -78,6 +90,12 @@ export class ProductsComponent implements OnInit {
         this.snackbar.openSnackBar("Product deleted successfully", "Dismiss");
         this.loadData();
       }
+    }, error => {
+      console.log(error);
+      if (error.status === 401) {
+        this.snackbar.openSnackBar("Unauthorized!!! Please login to use this feature", "Dismiss");
+      }
+      
     })
   }
 
@@ -89,7 +107,11 @@ export class ProductsComponent implements OnInit {
       this.showEditProduct = false;
       this.snackbar.openSnackBar("Product saved successfully", "Dismiss");
       this.loadData();
-    }    
+    } else {
+      this.showAddProduct = false;
+      this.showEditProduct = false;
+      this.snackbar.openSnackBar("Unauthorized!!! Please login to use this feature", "Dismiss");
+    }
   }
 
   loadData(): void {

@@ -59,8 +59,17 @@ export class ProductService {
       "stock": stock
     }
     console.log(newProduct);
+
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+ this.authService.authToken
+    });
+
+    const httpOptions = {
+      headers: headers_object
+    };
     
-    return this.http.post(url, newProduct);
+    return this.http.post(url, newProduct, httpOptions);
   }
 
   /**
@@ -80,7 +89,16 @@ export class ProductService {
     }
     console.log(newProduct);
     
-    return this.http.put(url, newProduct);
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+ this.authService.authToken
+    });
+
+    const httpOptions = {
+      headers: headers_object
+    };
+
+    return this.http.put(url, newProduct, httpOptions);
   }
 
   /**
@@ -90,7 +108,17 @@ export class ProductService {
    */
   deleteProduct(productId: number): Observable<any>{
     let url = `${this.baseUrl}/${productId}`;
-    return this.http.delete(url);
+    
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+ this.authService.authToken
+    });
+
+    const httpOptions = {
+      headers: headers_object
+    };
+
+    return this.http.delete(url, httpOptions);
   }
 
   /**
@@ -100,6 +128,16 @@ export class ProductService {
    */
   buyProduct(productId: number): Observable<any>{
     let url = `${this.baseUrl}/${productId}`;
-    return this.http.patch(url, null);
+    
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+ this.authService.authToken
+    });
+
+    const httpOptions = {
+      headers: headers_object
+    };
+
+    return this.http.patch(url, null, httpOptions);
   }
 }
