@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedModule } from './shared/shared.module';
 import { ProductsComponent } from './modules/product/pages/products/products.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ProductsComponent } from './modules/product/pages/products/products.com
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

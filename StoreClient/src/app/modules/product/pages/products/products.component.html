@@ -1,11 +1,28 @@
-<mat-grid-list cols="4" rowHeight="100px">
+<mat-grid-list class="container" cols="4" rowHeight="200px">
     <mat-grid-tile colspan="3">
-        Search component
+        <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Search</mat-label>
+            <input matInput type="text" [(ngModel)]="searchtext">
+            <button *ngIf="searchtext" matSuffix mat-icon-button aria-label="Clear" (click)="searchtext=''">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
     </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="2">
-        Action Buttons
+    <mat-grid-tile  colspan="1" rowspan="2">
+        <div class="action-buttons-container">
+            <div class="button">
+                <button mat-raised-button color="primary">Login</button>
+            </div>
+            <div class="button">
+                <button mat-raised-button color="accent">Log out</button>
+            </div>
+            <div class="button">
+                <button mat-raised-button color="primary">Add Product</button>
+            </div>
+        </div>
+        
     </mat-grid-tile>
     <mat-grid-tile colspan="3">
-        Table component
+        Table component 
     </mat-grid-tile>
 </mat-grid-list>

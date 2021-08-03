@@ -1,0 +1,14 @@
+.container{
+    width: 50%;
+}
+
+.action-buttons-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button{
+    padding: 20px
+}
