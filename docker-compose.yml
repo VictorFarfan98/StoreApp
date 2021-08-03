@@ -1,7 +1,22 @@
 version: '3.4'
 
 services:
-    
+    store_client:
+        build:
+            context: ./StoreClient
+            dockerfile: Dockerfile
+        container_name: store_client
+        depends_on:
+            - postgresql_database
+        ports:
+            - "5000:80"
+        links:
+            - postgresql_database
+        stdin_open: true
+        tty: true
+        volumes:
+            - ../storeClient:/usr/src/app
+
     store_api:
         build:
             context: ./StoreAPI
