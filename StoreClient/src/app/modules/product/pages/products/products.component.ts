@@ -15,7 +15,7 @@ export class ProductsComponent implements OnInit {
   products: Product[] = [];
   sortAPI: boolean = true;
   // Table related data
-  displayedColumns: string[] = ['productId', 'name', 'price', 'stock'];
+  displayedColumns: string[] = ['productId', 'name', 'price', 'stock', 'actionButton'];
   data: Product[] = [];
   resultsLength = 0;
   isLoadingResults = true;
@@ -73,4 +73,8 @@ export class ProductsComponent implements OnInit {
     })
   }
   
+  buyProduct(productId: number){
+    console.log("Buy product: " + productId);
+    //TODO: Call buy method
+  }
 }

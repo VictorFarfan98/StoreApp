@@ -13,11 +13,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { ProductsComponent } from './modules/product/pages/products/products.component';
 import { FormsModule } from '@angular/forms';
+import { AddEditProductComponent } from './modules/product/components/add-edit-product/add-edit-product.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductsComponent
+    ProductsComponent,
+    AddEditProductComponent
   ],
   imports: [
     BrowserModule,

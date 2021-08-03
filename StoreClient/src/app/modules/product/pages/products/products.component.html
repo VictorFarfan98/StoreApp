@@ -1,5 +1,5 @@
 <mat-grid-list class="container" cols="4" rowHeight="600px">
-    <mat-grid-tile colspan="2">
+    <mat-grid-tile colspan="3">
         <div class="table-container">
             <mat-form-field appearance="standard">
                 <mat-label>Filter</mat-label>
@@ -43,6 +43,14 @@
                         <td mat-cell *matCellDef="let row">{{row.stock}}</td>
                     </ng-container>
                     
+                    <ng-container matColumnDef="actionButton">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let row">
+                            <button (click)="buyProduct(row.productId)" mat-raised-button color="primary">Buy</button>
+                            <button (click)="editProduct(row.productId)" mat-raised-button color="accent">Edit</button>
+                            <button (click)="deleteProduct(row.productId)" mat-raised-button color="warn">Delete</button>
+                        </td>
+                    </ng-container>
                     <!-- Created Column -->
                     <!--
                     <ng-container matColumnDef="created">
@@ -72,11 +80,23 @@
                 <button mat-raised-button color="accent">Log out</button>
             </div>
             <div class="button">
-                <button mat-raised-button color="primary">Add Product</button>
+                <a routerLink="/addProduct">
+                    Add Product
+                </a>
+                <!--<button mat-raised-button color="primary">Add Product</button>-->
+                
             </div>
             <mat-checkbox [(ngModel)]="sortAPI" (ngModelChange)="sortChanged()">Sort</mat-checkbox>
         </div>
         
     </mat-grid-tile>
+
+    <mat-grid-tile  colspan="4">
+        <div class="form-container">
+            <app-add-edit-product></app-add-edit-product>
+        </div>
+        
+    </mat-grid-tile>
+    
     
 </mat-grid-list>
