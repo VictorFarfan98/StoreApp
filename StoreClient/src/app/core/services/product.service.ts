@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { FirebaseAuthService } from '../auth';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class ProductService {
     'Access-Control-Allow-Headers': 'Content-Type',
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: FirebaseAuthService) { }
 
   /**
    * Get the list of products
@@ -29,7 +30,17 @@ export class ProductService {
                     :
                     `pageNumber=${pageNumber}&pageSize=${pageSize}&sort=${sort}`
     let url = `${this.baseUrl}?${params}`
-    return this.http.get(url);            
+    
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer "+ this.authService.authToken
+    });
+
+    const httpOptions = {
+      headers: headers_object
+    };
+
+    return this.http.get(url, httpOptions);            
   }
 
   /**

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge } from 'rxjs';
+import { FirebaseAuthService } from 'src/app/core/auth';
 import { ProductService } from 'src/app/core/services/product.service';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { Product } from 'src/app/shared/models/product.model';
@@ -30,6 +31,7 @@ export class ProductsComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private snackbar: SnackbarService,
+    private authService: FirebaseAuthService,
   ) { }
 
   ngOnInit(): void {
@@ -103,10 +105,11 @@ export class ProductsComponent implements OnInit {
 
   login(): void{
     console.log("login");
-    
+    this.authService.SignIn();
   }
 
   logout(): void{
     console.log("logout");
+    this.authService.SignOut();
   }
 }

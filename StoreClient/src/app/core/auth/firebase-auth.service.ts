@@ -7,18 +7,24 @@ import { Observable } from 'rxjs';
 })
 export class FirebaseAuthService {
   userData: Observable<any>;
+  authToken: string;
 
   constructor(private angularFireAuth: AngularFireAuth) { 
     this.userData = angularFireAuth.authState;
   }
 
   /* Sign in */
-  SignIn(email: string, password: string) {
+  async SignIn() {
     this.angularFireAuth
-      .signInWithEmailAndPassword(email, password)
-      .then(res => {
+      .signInWithEmailAndPassword("test@test.com", "123123")
+      .then(async res => {
         console.log(`You're in!`);
         console.log(res);
+        (await this.angularFireAuth.currentUser).getIdToken(true).then( token => {
+          console.log("Token")
+          console.log(token)
+          this.authToken = token;
+        })
       })
       .catch(err => {
         console.log('Something went wrong:',err.message);
