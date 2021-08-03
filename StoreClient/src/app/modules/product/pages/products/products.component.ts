@@ -60,6 +60,11 @@ export class ProductsComponent implements OnInit {
     //TODO: Call buy method
   }
 
+  deleteProduct(productId: number){
+    console.log("Delete product: " + productId);
+    //TODO: Call delete method
+  }
+
   handleSaveSuccess(success){
     console.log("Handle save success: " + success);
     

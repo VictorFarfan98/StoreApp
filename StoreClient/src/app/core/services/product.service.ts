@@ -32,6 +32,14 @@ export class ProductService {
     return this.http.get(url);            
   }
 
+  /**
+   * Create a new product
+   * 
+   * @param name  The name of the product
+   * @param price The price of the product
+   * @param stock The available stock of the product
+   * @returns 
+   */
   createProduct(name: string, price: number, stock: number): Observable<any> {
     let url = `${this.baseUrl}`;
     let newProduct: any = { 
@@ -44,6 +52,14 @@ export class ProductService {
     return this.http.post(url, newProduct);
   }
 
+  /**
+   * Edit an existing product
+   * 
+   * @param productId The id of the product to edit
+   * @param name The new name of the product
+   * @param price The new price of the product
+   * @param stock The new stock of the product
+   */
   updateProduct(productId: number, name: string, price: number, stock: number): Observable<any> {
     let url = `${this.baseUrl}/${productId}`;
     let newProduct: any = { 
@@ -54,5 +70,25 @@ export class ProductService {
     console.log(newProduct);
     
     return this.http.put(url, newProduct);
+  }
+
+  /**
+   * Deletes a product from a given id.
+   * 
+   * @param productId The id of the product to be deleted.
+   */
+  deleteProduct(productId: number){
+    let url = `${this.baseUrl}/${productId}`;
+    return this.http.delete(url);
+  }
+
+  /**
+   * Triggers the buy action of a product.
+   * 
+   * @param productId The id of the product to buy.
+   */
+  buyProduct(productId: number){
+    let url = `${this.baseUrl}/${productId}`;
+    return this.http.patch(url, null);
   }
 }
