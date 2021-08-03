@@ -18,16 +18,12 @@ export class FirebaseAuthService {
     this.angularFireAuth
       .signInWithEmailAndPassword("test@test.com", "123123")
       .then(async res => {
-        console.log(`You're in!`);
-        console.log(res);
         (await this.angularFireAuth.currentUser).getIdToken(true).then( token => {
-          console.log("Token")
-          console.log(token)
           this.authToken = token;
         })
       })
       .catch(err => {
-        console.log('Something went wrong:',err.message);
+        console.error('Something went wrong:',err.message);
       });
   }
     

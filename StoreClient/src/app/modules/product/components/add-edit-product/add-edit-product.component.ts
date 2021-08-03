@@ -21,24 +21,21 @@ export class AddEditProductComponent implements OnInit {
   constructor(private productService: ProductService, private snackbar: SnackbarService,) { }
 
   ngOnInit(): void {
-    //this.name.setValue("Hola");
     if (this.isEdit) {
       this.name.setValue(this.product.name)
       this.price.setValue(this.product.price)
       this.stock.setValue(this.product.stock)
     }
-    
   }
 
+  /**
+   * Save the changes made to the product.
+   */
   saveProduct(): void{
-    //console.log(this.name.invalid);
-    console.log("Save");
-    
     if (!this.name.invalid && !this.price.invalid && !this.stock.invalid){
 
       if (this.isEdit) {
         this.productService.updateProduct(this.product.productId, this.name.value, this.price.value, this.stock.value).subscribe(res => {
-          console.log(res);
           if (res.succees) {
             this.name.setValue("");
             this.price.setValue("");
@@ -49,10 +46,7 @@ export class AddEditProductComponent implements OnInit {
           this.onSuccess.emit(false);
         })
       } else {
-        console.log("Create");
-      
         this.productService.createProduct(this.name.value, this.price.value, this.stock.value).subscribe(res => {
-          console.log(res);
           if (res.succees) {
             this.name.setValue("");
             this.price.setValue("");

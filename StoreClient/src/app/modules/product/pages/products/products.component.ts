@@ -37,6 +37,9 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Logic to be executed after component is initialized.
+   */
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -48,34 +51,43 @@ export class ProductsComponent implements OnInit {
     this.loadData();    
   }
 
+  /**
+   * Apply the text based filter and reload data.
+   */
   applyFilter(){
     this.loadData();
   }
 
+  /**
+   * Enables or disables sorting and reloads data.
+   */
   sortChanged(){
     this.loadData();
   }
 
+  /**
+   * Open the edit product section
+   * 
+   * @param product The product to be edited.
+   */
   editProduct(product: Product): void {
     this.showEditProduct = false;
-    setTimeout( () => {
-
-    }, 500)
     this.selectedProduct = product;
     this.showEditProduct = true;
   }
   
+  /**
+   * Execute the buy action of a product
+   * 
+   * @param productId The Id of the product to be bought.
+   */
   buyProduct(productId: number){
-    console.log("Buy product: " + productId);
     this.productService.buyProduct(productId).subscribe(res => {
-      console.log("Res");
-      console.log(res);
       if(res.succees) {
         this.snackbar.openSnackBar("Product bought successfully", "Dismiss");
         this.loadData();
       }
     }, error => {
-      console.log(error);
       if (error.status === 401) {
         this.snackbar.openSnackBar("Unauthorized!!! Please login to use this feature", "Dismiss");
       }
@@ -83,15 +95,18 @@ export class ProductsComponent implements OnInit {
     })
   }
 
+  /**
+   * Delete a product.
+   * 
+   * @param productId The Id of the product to be deleted.
+   */
   deleteProduct(productId: number){
-    console.log("Delete product: " + productId);
     this.productService.deleteProduct(productId).subscribe(res => {
       if(res.succees) {
         this.snackbar.openSnackBar("Product deleted successfully", "Dismiss");
         this.loadData();
       }
     }, error => {
-      console.log(error);
       if (error.status === 401) {
         this.snackbar.openSnackBar("Unauthorized!!! Please login to use this feature", "Dismiss");
       }
@@ -99,9 +114,10 @@ export class ProductsComponent implements OnInit {
     })
   }
 
+  /**
+   * Logic to be executed when a product is created or updated.
+   */
   handleSaveSuccess(success){
-    console.log("Handle save success: " + success);
-    
     if (success) {
       this.showAddProduct = false;
       this.showEditProduct = false;
@@ -114,10 +130,11 @@ export class ProductsComponent implements OnInit {
     }
   }
 
+  /**
+   * Load the list of products.
+   */
   loadData(): void {
     this.productService.getProducts(this.paginator.pageIndex+1, this.paginator.pageSize, this.sortAPI, this.searchtext).subscribe(res =>{
-      console.log(res.data);
-      
       this.data = res.data;
       this.isLoadingResults = false;
       this.isRateLimitReached = res.data === null;
@@ -125,13 +142,28 @@ export class ProductsComponent implements OnInit {
     })
   }
 
+  /**
+   * Login with default credentials. 
+   */
   login(): void{
-    console.log("login");
     this.authService.SignIn();
+    if (this.authService.authToken) {
+      this.snackbar.openSnackBar("Successfully Logged In", "Dismiss");
+    } else {
+      this.snackbar.openSnackBar("There was an error when logging in.", "Dismiss");
+    }
+    
   }
 
+  /**
+   * Logout of the application
+   */
   logout(): void{
-    console.log("logout");
     this.authService.SignOut();
+    if (!this.authService.authToken) {
+      this.snackbar.openSnackBar("Successfully Logged Out", "Dismiss");
+    } else {
+      this.snackbar.openSnackBar("There was an error when logging out.", "Dismiss");
+    }
   }
 }

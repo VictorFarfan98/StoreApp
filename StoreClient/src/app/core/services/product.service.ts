@@ -30,17 +30,8 @@ export class ProductService {
                     :
                     `pageNumber=${pageNumber}&pageSize=${pageSize}&sort=${sort}`
     let url = `${this.baseUrl}?${params}`
-    
-    let headers_object = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer "+ this.authService.authToken
-    });
 
-    const httpOptions = {
-      headers: headers_object
-    };
-
-    return this.http.get(url, httpOptions);            
+    return this.http.get(url, this.generateHttpOptions());            
   }
 
   /**
@@ -58,18 +49,8 @@ export class ProductService {
       "price": price,
       "stock": stock
     }
-    console.log(newProduct);
-
-    let headers_object = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer "+ this.authService.authToken
-    });
-
-    const httpOptions = {
-      headers: headers_object
-    };
     
-    return this.http.post(url, newProduct, httpOptions);
+    return this.http.post(url, newProduct, this.generateHttpOptions());
   }
 
   /**
@@ -87,18 +68,8 @@ export class ProductService {
       "price": price,
       "stock": stock
     }
-    console.log(newProduct);
-    
-    let headers_object = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer "+ this.authService.authToken
-    });
 
-    const httpOptions = {
-      headers: headers_object
-    };
-
-    return this.http.put(url, newProduct, httpOptions);
+    return this.http.put(url, newProduct, this.generateHttpOptions());
   }
 
   /**
@@ -108,17 +79,8 @@ export class ProductService {
    */
   deleteProduct(productId: number): Observable<any>{
     let url = `${this.baseUrl}/${productId}`;
-    
-    let headers_object = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': "Bearer "+ this.authService.authToken
-    });
 
-    const httpOptions = {
-      headers: headers_object
-    };
-
-    return this.http.delete(url, httpOptions);
+    return this.http.delete(url, this.generateHttpOptions());
   }
 
   /**
@@ -128,7 +90,14 @@ export class ProductService {
    */
   buyProduct(productId: number): Observable<any>{
     let url = `${this.baseUrl}/${productId}`;
-    
+
+    return this.http.patch(url, null, this.generateHttpOptions());
+  }
+
+  /**
+   * Generate the HTTP headers to be sent in the request
+   */
+  generateHttpOptions(): any{
     let headers_object = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': "Bearer "+ this.authService.authToken
@@ -138,6 +107,6 @@ export class ProductService {
       headers: headers_object
     };
 
-    return this.http.patch(url, null, httpOptions);
+    return httpOptions
   }
 }
