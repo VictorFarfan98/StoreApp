@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge } from 'rxjs';
 import { ProductService } from 'src/app/core/services/product.service';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { Product } from 'src/app/shared/models/product.model';
 
 @Component({
@@ -26,7 +27,10 @@ export class ProductsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private snackbar: SnackbarService,
+  ) { }
 
   ngOnInit(): void {
   }
@@ -57,12 +61,22 @@ export class ProductsComponent implements OnInit {
   
   buyProduct(productId: number){
     console.log("Buy product: " + productId);
-    //TODO: Call buy method
+    this.productService.buyProduct(productId).subscribe(res => {
+      if(res.succees) {
+        this.snackbar.openSnackBar("Product bought successfully", "Dismiss");
+        this.loadData();
+      }
+    })
   }
 
   deleteProduct(productId: number){
     console.log("Delete product: " + productId);
-    //TODO: Call delete method
+    this.productService.deleteProduct(productId).subscribe(res => {
+      if(res.succees) {
+        this.snackbar.openSnackBar("Product deleted successfully", "Dismiss");
+        this.loadData();
+      }
+    })
   }
 
   handleSaveSuccess(success){
@@ -71,12 +85,13 @@ export class ProductsComponent implements OnInit {
     if (success) {
       this.showAddProduct = false;
       this.showEditProduct = false;
+      this.snackbar.openSnackBar("Product saved successfully", "Dismiss");
       this.loadData();
     }    
   }
 
   loadData(): void {
-    this.productService.getProducts(this.paginator.pageIndex, this.paginator.pageSize, this.sortAPI, this.searchtext).subscribe(res =>{
+    this.productService.getProducts(this.paginator.pageIndex+1, this.paginator.pageSize, this.sortAPI, this.searchtext).subscribe(res =>{
       console.log(res.data);
       
       this.data = res.data;

@@ -77,7 +77,7 @@ export class ProductService {
    * 
    * @param productId The id of the product to be deleted.
    */
-  deleteProduct(productId: number){
+  deleteProduct(productId: number): Observable<any>{
     let url = `${this.baseUrl}/${productId}`;
     return this.http.delete(url);
   }
@@ -87,7 +87,7 @@ export class ProductService {
    * 
    * @param productId The id of the product to buy.
    */
-  buyProduct(productId: number){
+  buyProduct(productId: number): Observable<any>{
     let url = `${this.baseUrl}/${productId}`;
     return this.http.patch(url, null);
   }
